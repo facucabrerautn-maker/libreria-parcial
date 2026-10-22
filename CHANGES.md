@@ -371,7 +371,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > C-12 se apoya sobre las ventas ya confirmadas.
 
 ### [C-11] `venta-simulada`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - archivado el 2026-10-22 en `openspec/changes/archive/2026-10-22-venta-simulada/`
 - **Scope**: Composición de la venta, cálculos, validación y confirmación (Ejercicio 5 — 13 pts)
   - `js/vistas/ventas.js`: selector de cliente alimentado con `store.clientes` y selector de libro alimentado con `store.libros`, ambos reflejando las altas en vivo (RN-LIB-05, RN-CLI-03)
   - Agregar renglón: cliente existente, libro existente y cantidad **entera** mayor que cero — se rechazan cero, negativos y decimales (RN-VEN-01)
