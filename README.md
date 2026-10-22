@@ -8,10 +8,12 @@ Aplicación web de una librería: catálogo de libros, alta de libros y clientes
 
 ## 1. Responsables
 
-| Integrante | Matrícula | Qué hizo |
+| Integrante |
 |---|---|---|
-| _Completar: nombre y apellido_ | _Completar_ | _Completar_ |
-| _Completar: nombre y apellido_ | _Completar_ | _Completar_ |
+| Facundo Cabrera |
+| Nahuel Olmos |
+| Ignacio Ariza |
+| Agustin Pereyra |
 
 > ⚠️ **Pendiente de completar antes de entregar**: la consigna exige que el `README.md` identifique a quienes realizan el trabajo. Completar esta tabla.
 
