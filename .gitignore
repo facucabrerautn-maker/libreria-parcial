@@ -1,0 +1,30 @@
+# Dependencias y build — la consigna los PROHÍBE explícitamente (RN-ALC-01, RN-ENT-01).
+# Esto no es una preferencia de estilo: el uso de cualquier dependencia o paso de build
+# incumple el alcance técnico y se informa en la evaluación.
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+dist/
+build/
+.vite/
+
+# Tooling del stack de desarrollo: no forma parte de la entrega del parcial.
+# .atl/ lo genera `skill-registry` en cada cambio de skills; se resuelve en runtime.
+.atl/
+# .opencode/ trae las skills del CLI de OpenSpec y sus node_modules (54 MB, 3682 archivos):
+# es tooling, no entrega, y versionar node_modules contradice RN-ALC-01 / RN-ENT-01.
+.opencode/
+# Estado en runtime del flujo de fundación (`active-orchestrator`): se regenera, no se versiona.
+.active-orchestrator-state.json
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
