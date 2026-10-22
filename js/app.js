@@ -5,7 +5,10 @@
  * Scripts clásicos con IIFE (Chrome bloquea los módulos ES bajo file:// por CORS);
  * el contrato se publica en el namespace único window.Libreria.
  * C-02: resuelve el hash contra RUTAS, normaliza la URL, monta la vista, marca el
- * enlace activo y mueve el foco. La siembra y la persistencia llegan en C-04 y C-07.
+ * enlace activo y mueve el foco.
+ * C-07: hidrata el store desde el almacenamiento ANTES del primer render, queda
+ * suscrito a los cambios del store para persistirlos y avisa al usuario cuando
+ * el navegador no deja guardar los datos.
  */
 (function () {
   'use strict';
@@ -30,6 +33,7 @@
   /* Estado privado: ruta montada y si el arranque ya corrió. */
   var rutaMontada = null;
   var arranqueHecho = false;
+  var avisoPersistenciaMostrado = false;
 
   /* Función pura: resuelve un hash contra RUTAS sin leer location ni el DOM. */
   function resolverRuta(hash) {
@@ -174,12 +178,82 @@
     aplicarRuta(location.hash);
   }
 
-  /* Punto de entrada: ruta inicial, escucha de hashchange y montaje. */
+  /*
+   * Avisa en la vista activa que no se pudieron guardar los cambios. El aviso
+   * se muestra una sola vez por sesión para no acumular mensajes.
+   */
+  function avisarPersistenciaFallida() {
+    if (avisoPersistenciaMostrado) {
+      return null;
+    }
+    avisoPersistenciaMostrado = true;
+
+    var seccion = rutaMontada ? document.getElementById(RUTAS[rutaMontada]) : null;
+    if (!seccion) {
+      seccion = document.getElementById(RUTAS[RUTA_INICIAL]);
+    }
+    var region = seccion ? seccion.querySelector(SELECTOR_REGION) : null;
+    if (!region) {
+      return null;
+    }
+    return window.Libreria.ui.mostrarMensaje(
+      region,
+      'No se pudieron guardar los cambios en este navegador: es posible que el espacio de ' +
+        'almacenamiento esté completo. Los cambios quedan solo en esta sesión.',
+      'error'
+    );
+  }
+
+  /*
+   * Avisa a la vista activa de que cambió el store, para que se refresque. Cada
+   * vista decide qué redibujar mediante su método alCambiarElStore(). El render
+   * nunca escribe en el store, así que no hay riesgo de ciclo.
+   */
+  function avisarCambioDelStore() {
+    if (!rutaMontada) {
+      return false;
+    }
+    var modulo = (window.Libreria.vistas || {})[rutaMontada];
+    if (!modulo || typeof modulo.alCambiarElStore !== 'function') {
+      return false;
+    }
+    modulo.alCambiarElStore();
+    return true;
+  }
+
+  /*
+   * Hidrata el store desde el almacenamiento local (sembrando solo las claves
+   * que faltan) y queda suscrito a los cambios del store para persistirlos.
+   * La hidratación ocurre ANTES del primer render: las vistas siempre ven el
+   * estado real, nunca una store vacío (C-07).
+   */
+  function prepararEstado() {
+    var datos = window.Libreria.datos;
+    var storage = window.Libreria.storage;
+    if (!datos || !storage) {
+      return false;
+    }
+
+    storage.hidratar();
+
+    datos.suscribir(function () {
+      if (!storage.guardarTodo()) {
+        avisarPersistenciaFallida();
+      }
+      avisarCambioDelStore();
+    });
+
+    return true;
+  }
+
+  /* Punto de entrada: hidrata el estado, ruta inicial, escucha y montaje. */
   function iniciar() {
     if (arranqueHecho) {
       return rutaMontada;
     }
     arranqueHecho = true;
+
+    prepararEstado();
 
     window.addEventListener('hashchange', alCambiarHash);
 
@@ -188,7 +262,8 @@
 
   window.Libreria.app = {
     iniciar: iniciar,
-    montarVista: montarVista
+    montarVista: montarVista,
+    hidratar: prepararEstado
   };
 
   window.Libreria.app.iniciar();

@@ -57,6 +57,18 @@
   align-items: start;
 }
 
+/* Cada ítem de la grilla puede encogerse: sin `min-width: 0` el contenido
+   largo (títulos, ISBN) desbordaría la columna y la página a 320 px
+   (RN-ACC-04). */
+.grilla-catalogo__item {
+  min-width: 0;
+}
+
+/* Títulos largos: se parten antes que desbordar la tarjeta. */
+.grilla-catalogo .tarjeta__titulo {
+  overflow-wrap: anywhere;
+}
+
 .vista-catalogo__filtros {
   display: flex;
   flex-wrap: wrap;
@@ -81,6 +93,33 @@
   color: var(--color-texto-suave);
 }
 
+/* Datos de la ficha: lista de definiciones en dos columnas elásticas. */
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: var(--espacio-1) var(--espacio-3);
+  margin: 0;
+  font-size: var(--tamano-texto-sm);
+}
+
+.ficha__etiqueta {
+  font-weight: var(--peso-medio);
+  color: var(--color-texto-suave);
+}
+
+.ficha__valor {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-texto);
+  overflow-wrap: anywhere;
+}
+
+/* El precio se lee de un vistazo: peso fuerte y cifras de ancho constante. */
+.ficha__precio {
+  font-weight: var(--peso-fuerte);
+  font-variant-numeric: tabular-nums;
+}
+
 
 /* 3. Formularios y listados de las vistas de alta -------------------------- */
 
@@ -103,9 +142,23 @@
   min-width: 0;
 }
 
+/* Listados de libros y clientes: título de sección y tabla apilados con aire. */
 .vista-libros__listado,
 .vista-clientes__listado {
+  display: flex;
+  flex-direction: column;
   gap: var(--espacio-4);
+  min-width: 0;
+}
+
+/* Formulario de clientes: una sola columna, alineado arriba junto al listado. */
+.vista-clientes__formulario {
+  align-self: start;
+}
+
+/* Selector múltiple de autores: altura cómoda para elegir con teclado. */
+.vista-libros__autores {
+  min-height: calc(var(--espacio-10) + var(--espacio-4));
 }
 
 
@@ -195,6 +248,26 @@
    que sus columnas se lean; si no entra, scrollea dentro del contenedor. */
 .tabla-renglones {
   min-width: 36rem;
+}
+
+/* Listado de libros: si no entra a lo ancho, scrollea dentro de su caja. */
+.tabla-libros {
+  min-width: 40rem;
+}
+
+.tabla-libros th:last-child,
+.tabla-libros td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Listado de clientes: dos columnas legibles; si no entra, scrollea adentro. */
+.tabla-clientes {
+  min-width: 22rem;
+}
+
+.tabla-clientes td {
+  overflow-wrap: anywhere;
 }
 
 .tabla-renglones .numero {
