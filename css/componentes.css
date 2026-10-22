@@ -352,6 +352,13 @@ table .vacia {
 
 /* 6. Mensajes ------------------------------------------------------------- */
 
+/* Marca de la librería: nombre de la aplicación en la cabecera. */
+.marca {
+  font-size: var(--tamano-texto-lg);
+  color: var(--color-acento-fuerte);
+  letter-spacing: 0.01em;
+}
+
 /* Región de mensajes de cada vista: apila sus mensajes con separación entre
    ellos, sin depender del margen de cada uno. */
 .region-mensajes {
@@ -396,6 +403,18 @@ table .vacia {
   font-weight: var(--peso-fuerte);
 }
 
+/* Mensaje informativo: se usa para avisos que no son un error. */
+.mensaje--aviso {
+  color: var(--color-aviso);
+  background-color: var(--color-aviso-fondo);
+  border-color: var(--color-aviso);
+}
+
+.mensaje--aviso::before {
+  content: "ℹ";
+  font-weight: var(--peso-fuerte);
+}
+
 /* Mensaje de lista vacía o búsqueda sin resultados (RN-CAT-04, RN-ACC-02). */
 .mensaje--vacio {
   justify-content: center;
@@ -406,6 +425,31 @@ table .vacia {
 
 .mensaje__titulo {
   font-weight: var(--peso-fuerte);
+}
+
+/* Lista de errores de validación: cada ítem nombra el campo con su atributo
+   data-campo, para que el mensaje quede junto al control (RN-ACC-05). */
+.lista-errores {
+  display: grid;
+  gap: var(--espacio-2);
+  padding: var(--espacio-3) var(--espacio-4);
+  font-size: var(--tamano-texto-sm);
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radio-md);
+}
+
+.lista-errores li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-2);
+}
+
+.lista-errores li::before {
+  content: "✕";
+  font-weight: var(--peso-fuerte);
+  line-height: 1.4;
 }
 
 

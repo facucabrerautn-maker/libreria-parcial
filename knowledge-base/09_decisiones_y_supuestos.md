@@ -32,7 +32,7 @@
 **Contexto**: la consigna dice "Al confirmar, se registra un identificador, fecha, cliente, renglones y total. El precio unitario se copia al renglón como valor histórico, de modo que no se obtiene nuevamente desde el precio actual del catálogo al consultar el historial". También establece que en la vista de Ventas cada renglón muestra el precio unitario, lo que implica que el precio ya está definido mientras se compone la venta.
 **Alternativas consideradas**: (a) leer el precio del catálogo recién al confirmar; (b) congelarlo al agregar el renglón; (c) releerlo en cada render de la venta en curso.
 **Justificación**: (b) y (c) son equivalentes para el resultado final, pero (b) evita que el importe mostrado en pantalla cambie bajo los pies del usuario entre que arma la venta y la confirma, y es más simple de razonar.
-**Trade-offs aceptados**: si el precio del catálogo cambia **durante** la composición de una venta, la venta refleja el precio de cuando se agregó el renglón, no el del momento de confirmar. Es coherente con la idea de "valor histórico" y no está en contradicción con la consigna (que solo exige que el historial no vuelva a leer el precio actual). Registrado como pregunta abierta P-05.
+**Trade-offs aceptados**: si el precio del catálogo cambia **durante** la composición de una venta, la venta refleja el precio de cuando se agregó el renglón, no el del momento de confirmar. Es coherente con la idea de "valor histórico" y no está en contradicción con la consigna (que solo exige que el historial no vuelva a leer el precio actual). Registrado como pregunta abierta P-04.
 
 ### DD-05 — Normalización asimétrica de ISBN y email
 **Decisión**: el ISBN se normaliza quitando espacios **y guiones**; el email se normaliza quitando solo espacios exteriores, ambos en minúsculas.
@@ -90,6 +90,21 @@
 **Alternativas consideradas**: (a) un único `app.js` monolítico; (b) un archivo por función; (c) un módulo por responsabilidad y un módulo por vista.
 **Justificación**: (c) da archivos cortos y con una responsabilidad evidente, sin fragmentar en exceso.
 **Trade-offs aceptados**: un archivo más que mantener (`ui.js` y `datos.js` podrían fusionarse); el beneficio en claridad compensa.
+
+### DD-13 — Nombre propio de la librería, escrito en un solo lugar
+**Decisión**: la librería se llama **"Librería El Faro"**. El nombre aparece en el `<title>` del documento, en el `<header>` y en el encabezado de la vista Catálogo. No se usa ninguna otra marca en el código.
+**Contexto**: el Ejercicio 1 pide que la vista Catálogo muestre "el título de la librería". La consigna no fija un nombre, y una palabra genérica ("Librería") no distingue el proyecto de cualquier otro.
+**Alternativas consideradas**: (a) dejar solo la palabra "Librería"; (b) un nombre inventado; (c) un nombre temático tomado del seed.
+**Justificación**: (b) con (c) cumple "título de la librería" con un nombre propio y coherente con la primera obra del catálogo ("El faro de las salinas"), que le da identidad al seed. El nombre es ficticio (SU-07, P-13).
+**Trade-offs aceptados**: es un detalle de presentación que el docente puede pedir cambiar. Por eso está **centralizado**: cambiarlo es editar dos lugares de `index.html` y una línea del README.
+**Nota**: el nombre no aparece en `localStorage` ni forma parte de ninguna clave, así que cambiarlo no invalida los datos guardados.
+
+### DD-14 — Las preguntas de prioridad Alta quedan cerradas con los defaults propuestos
+**Decisión**: P-01 (formato de ids), P-02 (claves de `localStorage`), P-03 (formato de importes) y P-04 (momento de congelamiento del precio) se resuelven **adoptando el default propuesto** en [10](10_preguntas_abiertas.md), que es lo que ya definían DD-06, DD-07, DD-10 y DD-04.
+**Contexto**: las cuatro inicialmente estaban dirigidas al docente. Adoptar los defaults permite cerrar la Fase 0 sin bloquear la implementación, y deja todo lo decidido en un único lugar auditable.
+**Justificación**: ninguno de los defaults contradice la consigna; los cuatro son decisiones de implementación sobre puntos que el enunciado deja abiertos. Cada una queda documentada en el README de entrega para que el docente la encuentre sin consultar la KB.
+**Trade-offs aceptados**: si el docente quería otra cosa (por ejemplo, un símbolo de moneda), el ajuste es de un solo punto (`ui.formatearMonto`) más la línea del README. Se deja anotado en el README como decisión de diseño, no como requisito del enunciado.
+**Estado**: las cuatro siguen abiertas *para confirmación del docente* en el sentido de que se pueden cambiar; pero **no bloquean** la implementación.
 
 ## Supuestos inferidos
 

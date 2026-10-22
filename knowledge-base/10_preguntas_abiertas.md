@@ -79,6 +79,34 @@
 | P-14 | Baja | ¿Se requieren imágenes de portada en el catálogo? | Implementación de catálogo | Docente | No. Se resuelven con CSS y SVG inline local; así no hay imágenes ajenas que licenciar (DD-11). |
 | P-15 | Baja | ¿Dónde se documenta la procedencia de imágenes ajenas si el docente igual pide usarlas? | Cierre | Docente | Sección "Imágenes y recursos" del README, con autor, licencia y URL de origen; con el default propuesto, la sección queda en "no se utilizan imágenes de terceros". |
 
+## Resoluciones de Fase 0 (2026-10-22)
+
+> Las preguntas de prioridad **Alta** se cerraron **adoptando el default propuesto**: ninguna bloquea la implementación y todas quedan documentadas en el `README.md` de entrega. Siguen siendo ajustables si el docente pide otra cosa, y en ese caso el cambio es de un solo punto de código (DD-14).
+
+| # | Prioridad | Resolución adoptada | Dónde se aplica | Ajuste si el docente pide otro |
+|---|-----------|----------------------|------------------|--------------------------------|
+| P-01 | Alta | **Ids con prefijo y 3 dígitos**: `LIB-001`, `EDI-001`, `GEN-001`, `AUT-001`, `CLI-001`, `VEN-001`, `REN-001`. Correlativo = `max(correlativo existente) + 1` sobre la colección. | `js/datos.js` → `siguienteId()` (DD-06) | Cambiar la tabla de prefijos y el relleno a 3 dígitos |
+| P-02 | Alta | **Una clave por colección con prefijo `libreria.`**: `libreria.libros`, `libreria.clientes`, `libreria.ventas`, `libreria.editoriales`, `libreria.generos`, `libreria.autores`. Cada valor es un **array de objetos** en JSON. | `js/storage.js` → tabla `CLAVES` (DD-07, DD-03) | Cambiar la tabla de claves + la tabla del README |
+| P-03 | Alta | **Importes con dos decimales, sin símbolo de moneda y sin separador de miles**: `3000.00`, `5000.00`. Se usa `toFixed(2)`, que es determinista y coincide con la forma en que la consigna escribe los importes esperados ("Subtotales 3000 y 2000; total 5000"). | `js/ui.js` → `formatearMonto()` (DD-10, SU-01) | **Un solo punto**: `ui.formatearMonto()` + la línea del README |
+| P-04 | Alta | **El precio unitario se congela al agregar el renglón** al borrador de la venta, y viaja con el renglón hasta la confirmación. El historial nunca relee el precio del catálogo. | `js/vistas/ventas.js` (Fase 3) + `js/datos.js` → `agregarVenta()` (DD-04, RN-VEN-07) | Congelar en el paso 2 del flujo en vez del paso 4 |
+| P-05 | Media | Fecha de la venta = **ISO 8601 UTC** al guardar (`2026-10-22T14:35:00.000Z`), mostrada en formato local legible `dd/mm/aaaa`. Historial de más reciente a más antiguo. | `js/ui.js` → `formatearFecha()`; orden en `js/datos.js` (SU-04, DD-10) | Cambiar el formato de salida |
+| P-06 | Media | Catálogo y listado de libros ordenados por **título ascendente**, con desempate por `id`. | `js/datos.js` → `listarLibros()` (SU-02) | Cambiar el comparador |
+| P-07 | Media | Cliente = **un solo campo "Nombre y apellido"**. Sin campo de apellido separado. | `js/validaciones.js` → `validarCliente()` (RN-CLI-01) | — (lo fija la consigna) |
+| P-08 | Media | **No hay pantalla para editar precios.** El precio se cambia a mano desde DevTools → Application → Local Storage. | — (DD-08) | — |
+| P-09 | Media | No hay huérfanos porque no se borra nada desde la interfaz. El historial se renderiza desde el **snapshot** de la venta. | `js/vistas/historial.js` (Fase 3) (DD-09) | — |
+| P-10 | Media | **No hay botón de "reiniciar".** Para empezar de cero se borran las claves `libreria.*` desde DevTools. Se documenta en el README. | — | Agregar el botón (sería alcance nuevo) |
+| P-11 | Media | **No hay límite artificial** de registros ni de cantidad. El único límite es la cuota de `localStorage`: si se supera, la escritura falla y la app lo informa. | `js/storage.js` → `try/catch` (RN-PER-01) | — |
+| P-12 | Baja | Email con **expresión regular laxa con dominio y TLD**: `^[^\s@]+@[^\s@]+\.[^\s@]+$`. El `type="email"` del navegador es la primera barrera. | `js/validaciones.js` → `validarCliente()` | Ajustar la expresión regular |
+| P-13 | Baja | **Todo ficticio**: títulos, autores y editoriales inventados; emails con `example.com` (dominio reservado). | `js/datos.js` → semilla (SU-07, DD-02) | — |
+| P-14 | Baja | **Sin imágenes de portada.** La identidad visual se resuelve con CSS y, si hace falta, SVG inline local decorativo (`aria-hidden="true"`). | `css/`, `assets/` (DD-11) | Agregar SVG inline local |
+| P-15 | Baja | El README tiene una sección **"Imágenes y recursos"**; con lo decidido queda en "no se utilizan imágenes de terceros". | `README.md` (RN-ENT-02) | — |
+
+### Pregunta nueva (P-16) — abierta, resuelta por DD-13
+
+| # | Prioridad | Pregunta | Bloquea | Default adoptado |
+|---|-----------|---------|---------|-----------------|
+| P-16 | Media | ¿Qué nombre tiene la librería y dónde aparece? | Vista Catálogo, `<header>`, `<title>` | **"Librería El Faro"**, escrito en un solo lugar (DD-13). Es ficticio y se cambia en dos líneas de `index.html`. |
+
 ## Notas sobre los campos de discovery
 
 Los seis campos de `kb.discovery` del archivo `.active-orchestrator-state.json` (**problem**, **system_type**, **domain**, **scale**, **stack**, **needs_infra**) se inferieron **con confianza alta** a partir del texto de la consigna, sin necesidad del bloque de baja confianza del contrato de estado:

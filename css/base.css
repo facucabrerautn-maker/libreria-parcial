@@ -266,6 +266,33 @@ main {
   padding-block: var(--espacio-6) var(--espacio-12);
 }
 
+/* Cabecera: la marca va arriba, con aire respecto de la navegación. */
+header {
+  padding-block: var(--espacio-6) var(--espacio-3);
+}
+
+/* Navegación principal: los enlaces se alinean en una fila que puede pasar a
+   varias líneas en pantallas angostas, sin scroll horizontal (RN-ACC-04). */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  padding-block: var(--espacio-2);
+  border-bottom: var(--borde-base);
+}
+
+nav a {
+  display: inline-block;
+  padding: var(--espacio-2) var(--espacio-3);
+  color: var(--color-acento-fuerte);
+  border-radius: var(--radio-sm);
+  transition: background-color var(--duracion-transicion) var(--curva-transicion);
+}
+
+nav a:hover {
+  background-color: var(--color-acento-suave);
+}
+
 .contenedor {
   width: 100%;
   max-width: var(--ancho-contenedor);

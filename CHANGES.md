@@ -27,13 +27,13 @@
 C-01 estructura-base-spa ✓
 │
 ├── C-02 navegación-hash-vistas ──────┐ ✓
-├── C-03 css-identidad-visual ────────┤
-├── C-04 modelo-datos-y-seed ─────────┤
-│   ├── C-06 validaciones-puras ──────┼── C-09 alta-libros (+ C-07) ────┐
-│   │                                └── C-10 alta-clientes (+ C-07) ┤
-│   └── C-07 persistencia-localstorage┐                              │
-│                                       └── C-08 catálogo-render-filtro
-├── C-05 helpers-ui ───────────────────┘
+├── C-03 css-identidad-visual ────────┤ ✓
+├── C-04 modelo-datos-y-seed ─────────┤ ✓
+│   ├── C-06 validaciones-puras ──────┼── C-09 alta-libros (+ C-07) ────┐ ✓
+│   │                                └── C-10 alta-clientes (+ C-07) ┤ ✓
+│   └── C-07 persistencia-localstorage┐ ✓                            │
+│                                       └── C-08 catálogo-render-filtro ✓
+├── C-05 helpers-ui ───────────────────┘ ✓
 │
 │          C-09 + C-10 ──────────────────────────┐
 │                                                 ▼
@@ -62,20 +62,20 @@ GATE 0: ninguna
 
 GATE 1: C-01 ✓                     ← PRIMER FORK (4 paralelos)
   → C-02 navegación-hash-vistas                      ✓ [Agente A]
-  → C-03 css-identidad-visual                       [Agente A]
-  → C-04 modelo-datos-y-seed                         [Agente B]
-  → C-05 helpers-ui                                  [Agente C]
+  → C-03 css-identidad-visual                       ✓ [Agente A]
+  → C-04 modelo-datos-y-seed                         ✓ [Agente B]
+  → C-05 helpers-ui                                  ✓ [Agente C]
 
 GATE 2: C-04 + C-05 ✓               ← FORK (2 paralelos)
-  → C-06 validaciones-puras                          [Agente B]
-  → C-07 persistencia-localstorage                   [Agente B]
+  → C-06 validaciones-puras                          ✓ [Agente B]
+  → C-07 persistencia-localstorage                   ✓ [Agente B]
 
 GATE 3: C-02 + C-03 + C-05 + C-07 ✓
-  → C-08 catálogo-render-filtro                      [Agente A]
+  → C-08 catálogo-render-filtro ✓ [Agente A]
 
 GATE 4: C-03 + C-04 + C-05 + C-06 + C-07 ✓         ← FORK (2 paralelos)
-  → C-09 alta-libros                                 [Agente C]
-  → C-10 alta-clientes                               [Agente C]
+  → C-09 alta-libros                              ✓ [Agente C]
+  → C-10 alta-clientes                              ✓ [Agente C]
 
 GATE 5: C-09 + C-10 ✓
   → C-11 venta-simulada                              [Agente C]
@@ -184,7 +184,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > navegación avanzan en paralelo porque tocan archivos distintos.
 
 ### [C-03] `css-identidad-visual`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — 2026-10-22. Verificado por revisión de estilos y por el test de integración; la comprobación visual a 320 px / 1280 px queda para el caso manual nº 8 (C-15)
 - **Scope**: Identidad visual propia, layout adaptable y base de accesibilidad (Ejercicio 2 — 20 pts)
   - `css/base.css`: reset mínimo, `box-sizing: border-box`, tokens centralizados en `:root` (color, tipografía del sistema, escala de espaciado), ancho máximo cómodo del contenedor a 1280 px, foco visible con `:focus-visible` contrastado sin eliminar `outline` (RN-ACC-03, RN-ACC-05)
   - `css/componentes.css`: clases reutilizables de tarjeta, formulario (input, select, campo de error), botón (variantes primaria y secundaria), tabla, badge, mensaje de resultado y mensaje de error, badge «Sin clasificar»
@@ -205,7 +205,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-04] `modelo-datos-y-seed`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — 2026-10-22. Verificado con 27 pruebas automatizadas (`js/datos.js`)
 - **Scope**: Entidades, seed determinista y store en memoria (base del Ejercicio 3 — 15 pts)
   - `js/datos.js`: entidades `Libro`, `Editorial`, `Género`, `Autor`, `Cliente`, `Venta` y `Renglón` con los atributos y constraints de `04_modelo_de_datos.md §Entidades` (`isbnNorm`, `emailNorm`, `precio > 0`, `autorIds.length >= 1`, `generoId ∈ {null} ∪ géneros`)
   - Seed determinista: 2 editoriales (`EDI-001`, `EDI-002`), 2 géneros (`GEN-001`, `GEN-002`), 3 autores (`AUT-001`…`AUT-003`), 6 libros (`LIB-001`…`LIB-006`) y 3 clientes (`CLI-001`…`CLI-003`, emails en el dominio reservado `example.com`)
@@ -227,7 +227,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-05] `helpers-ui`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — 2026-10-22. Verificado con 21 pruebas automatizadas (`js/ui.js`)
 - **Scope**: Helpers de DOM compartidos por las cinco vistas
   - `js/ui.js`: `crearElemento(etiqueta, props, hijos)` que inserta datos de usuario solo con `textContent` y `value` — sin `innerHTML` ni `insertAdjacentHTML` con contenido dinámico (RN-DAT-05, RN-EX-02)
   - `crearTabla(columnas, filas)`: `<thead>` con `<th scope="col">` y `<tbody>` con celdas `<td>` (RN-ACC-02)
@@ -251,7 +251,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > C-06 y C-07 se ejecutan en paralelo (GATE 2): ninguno depende del otro y ambos dependen de C-04.
 
 ### [C-06] `validaciones-puras`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — 2026-10-22. Verificado con 42 pruebas automatizadas (`js/validaciones.js`)
 - **Scope**: Funciones puras de validación y cálculo (bloque "validación y actualización" — 5 pts de la rúbrica)
   - `js/validaciones.js`: funciones puras que reciben datos + contexto y devuelven errores por campo; no tocan el DOM (RN-EX-01)
   - `validarLibro(datos, contexto)`: título no vacío, ISBN no vacío, ISBN no duplicado por `isbnNorm`, precio numérico mayor que cero, editorial existente, al menos un autor seleccionado y todos existentes, género existente o ausente (RN-LIB-03)
@@ -272,7 +272,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-07] `persistencia-localstorage`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — 2026-10-22. Verificado con 18 pruebas de persistencia y 9 de arranque (`js/storage.js`, `js/app.js`)
 - **Scope**: Capa de persistencia en `localStorage` y arranque de la aplicación
   - `js/storage.js`: una clave por colección con namespace de proyecto — `libreria.libros`, `libreria.clientes`, `libreria.ventas`, `libreria.editoriales`, `libreria.generos`, `libreria.autores` — con lectura y escritura por `JSON.parse` / `JSON.stringify` (DD-03, DD-07, RN-PER-01)
   - Siembra condicional por clave: el seed se escribe solo si la clave no existe; con la clave presente manda el contenido guardado y no se re-siembra ni se fusiona por `id` (DD-08, RN-PER-02) — condición que hace concluyente el caso manual nº 6
@@ -298,7 +298,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > `localStorage` (C-07). Cierra el Ejercicio 3 junto con C-04 y C-07.
 
 ### [C-08] `catalogo-render-filtro`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - 2026-10-22. Verificado con 53 pruebas automatizadas (`js/vistas/catalogo.js`, `js/vistas/catalogo-buscador.js`, `js/vistas/catalogo-fichas.js`); la comprobación visual a 320 px / 1280 px queda para el caso manual nº 8 (C-15)
 - **Scope**: Catálogo generado por JavaScript y filtro por título (Ejercicio 3 — 15 pts)
   - `js/vistas/catalogo.js`: render de la grilla de libros desde `store.libros` — nunca desde HTML fijo (RN-CAT-01)
   - Cada ficha muestra título, ISBN, editorial, género, autores y precio; libro sin género → badge «Sin clasificar» (RN-CAT-04, US-011)
@@ -325,7 +325,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > mismo módulo de validaciones (C-06) y el mismo store (C-04).
 
 ### [C-09] `alta-libros`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - 2026-10-22. Verificado con 36 pruebas automatizadas (`js/vistas/libros.js`, `js/vistas/libros-formulario.js`, `js/vistas/libros-listado.js`); 214 en total con las 178 previas
 - **Scope**: Formulario de alta de libros con selectores relacionados y listado de libros (Ejercicio 4 — 6 pts)
   - `js/vistas/libros.js`: formulario con título, ISBN, precio, editorial, género y autores; `type="number"`, `min`, `step` y `required` como primera barrera, no como única (08 §Seguridad)
   - Selectores generados desde los datos locales: `<select>` de editorial y de género, `<select multiple>` (o checkboxes equivalentes) de autores; la opción «Sin clasificar» mapea a `generoId = null` (RN-LIB-01, RN-LIB-02, IN-06)
@@ -346,7 +346,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-10] `alta-clientes`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - 2026-10-22. Verificado con 26 pruebas automatizadas (`js/vistas/clientes.js`, `js/vistas/clientes-formulario.js`, `js/vistas/clientes-listado.js`); 240 en total con las 214 previas
 - **Scope**: Formulario de alta de clientes y padroneo de clientes (Ejercicio 4 — 4 pts)
   - `js/vistas/clientes.js`: formulario con nombre completo (campo único, sin apellido separado) y email con `type="email"` (RN-CLI-01, P-07)
   - `submit` con `preventDefault` y llamada a `validarCliente()`: errores por campo mostrados junto al control; nada se escribe si falla una comprobación (RN-CLI-02, RN-EX-03, RN-EX-04)

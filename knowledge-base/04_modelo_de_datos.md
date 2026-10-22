@@ -230,9 +230,9 @@ La consigna exige persistir **libros, clientes y ventas** y que, al reabrir, se 
 | `libreria.libros` | `Libro[]` | Catálogo de libros (incluye los del seed y los dados de alta) | **Sí** |
 | `libreria.clientes` | `Cliente[]` | Clientes registrados | **Sí** |
 | `libreria.ventas` | `Venta[]` | Ventas confirmadas, con renglones y precios históricos | **Sí** |
-| `libreria.editoriales` | `Editorial[]` | Catálogo de editoriales | No (decisión DD-06) |
-| `libreria.generos` | `Género[]` | Catálogo de géneros | No (decisión DD-06) |
-| `libreria.autores` | `Autor[]` | Catálogo de autores | No (decisión DD-06) |
+| `libreria.editoriales` | `Editorial[]` | Catálogo de editoriales | No (decisión DD-07) |
+| `libreria.generos` | `Género[]` | Catálogo de géneros | No (decisión DD-07) |
+| `libreria.autores` | `Autor[]` | Catálogo de autores | No (decisión DD-07) |
 
 Ejemplo del contenido de `libreria.libros` (extracto):
 
