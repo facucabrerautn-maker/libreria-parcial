@@ -14,9 +14,13 @@ build/
 # Tooling del stack de desarrollo: no forma parte de la entrega del parcial.
 # .atl/ lo genera `skill-registry` en cada cambio de skills; se resuelve en runtime.
 .atl/
-# .opencode/ trae las skills del CLI de OpenSpec y sus node_modules (54 MB, 3682 archivos):
-# es tooling, no entrega, y versionar node_modules contradice RN-ALC-01 / RN-ENT-01.
-.opencode/
+# .opencode/ trae las skills y los comandos del CLI de OpenSpec: se versionan para que
+# un clon pueda usar /opsx:* sin instalar nada (12 archivos markdown, ~183 KB).
+# Se excluye solo su dependencia (node_modules + package.json del plugin), que
+# contradice RN-ALC-01 / RN-ENT-01.
+.opencode/*
+!.opencode/skills/
+!.opencode/commands/
 # Estado en runtime del flujo de fundación (`active-orchestrator`): se regenera, no se versiona.
 .active-orchestrator-state.json
 
