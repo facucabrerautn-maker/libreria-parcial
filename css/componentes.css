@@ -1,0 +1,421 @@
+/* ===========================================================================
+   componentes.css — Clases reutilizables de la aplicación.
+
+   Responsabilidad (única): tarjetas, formularios, botones, tablas, badges,
+   mensajes de resultado, mensajes de error, el badge «Sin clasificar» y el
+   estado activo de los enlaces de navegación.
+
+   Lo que NO vive acá: reset ni tokens (css/base.css) ni contenedores por
+   vista (css/vistas.css).
+
+   Regla dura del proyecto: ningún hexadecimales acá. Todos los valores salen
+   de `var(--...)` declarados en `:root` de css/base.css.
+   =========================================================================== */
+
+
+/* 1. Tarjeta -------------------------------------------------------------- */
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+  min-width: 0;
+  padding: var(--espacio-4);
+  background-color: var(--color-superficie);
+  border: var(--borde-base);
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-sm);
+}
+
+.tarjeta__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.tarjeta__titulo {
+  margin: 0;
+  font-size: var(--tamano-texto-lg);
+  font-weight: var(--peso-fuerte);
+  line-height: var(--interlinea-corta);
+}
+
+.tarjeta__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  min-width: 0;
+  color: var(--color-texto-suave);
+}
+
+.tarjeta__pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--espacio-3);
+  border-top: var(--borde-base);
+}
+
+
+/* 2. Formularios ---------------------------------------------------------- */
+
+.formulario {
+  display: grid;
+  gap: var(--espacio-4);
+  width: 100%;
+  max-width: 46rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  min-width: 0;
+}
+
+.campo__etiqueta {
+  font-size: var(--tamano-texto-sm);
+  font-weight: var(--peso-medio);
+  color: var(--color-texto);
+}
+
+.campo__ayuda {
+  font-size: var(--tamano-texto-xs);
+  color: var(--color-texto-suave);
+}
+
+/* Error expresado con texto (RN-ACC-05): el color acompaña, no reemplaza. */
+.campo__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espacio-1);
+  font-size: var(--tamano-texto-xs);
+  font-weight: var(--peso-medio);
+  color: var(--color-error);
+}
+
+.campo__error::before {
+  content: "✕";
+  font-weight: var(--peso-fuerte);
+  line-height: 1.4;
+}
+
+.campo__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-3);
+  align-items: center;
+}
+
+/* Controles: los elementos nativos y la clase `.control` comparten estilo,
+   así el control queda bien aunque el módulo lo cree sin clase. */
+.control,
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: var(--alto-minimo-control);
+  padding: var(--espacio-2) var(--espacio-3);
+  font-size: var(--tamano-texto-base);
+  color: var(--color-texto);
+  background-color: var(--color-superficie);
+  border: var(--borde-control);
+  border-radius: var(--radio-sm);
+  transition: border-color var(--duracion-transicion) var(--curva-transicion),
+    box-shadow var(--duracion-transicion) var(--curva-transicion);
+}
+
+.control:hover,
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--color-acento);
+}
+
+.control:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--color-foco);
+}
+
+.control::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-texto-suave);
+  opacity: 1;
+}
+
+textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+/* Las casillas y los radios conservan su tamaño nativo. */
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  width: auto;
+  min-height: auto;
+  padding: 0;
+}
+
+/* Campo marcado como inválido (el texto del error va en `aria-describedby`). */
+.control[aria-invalid="true"],
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 1px var(--color-error);
+}
+
+.control:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  color: var(--color-texto-suave);
+  background-color: var(--color-superficie-alterna);
+  cursor: not-allowed;
+}
+
+
+/* 3. Botones -------------------------------------------------------------- */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espacio-2);
+  min-height: var(--alto-minimo-control);
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: var(--tamano-texto-base);
+  font-weight: var(--peso-medio);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  cursor: pointer;
+  transition: background-color var(--duracion-transicion) var(--curva-transicion),
+    border-color var(--duracion-transicion) var(--curva-transicion),
+    color var(--duracion-transicion) var(--curva-transicion);
+}
+
+.boton--primario {
+  color: var(--color-acento-contraste);
+  background-color: var(--color-acento);
+  border-color: var(--color-acento);
+}
+
+.boton--primario:hover {
+  background-color: var(--color-acento-fuerte);
+  border-color: var(--color-acento-fuerte);
+}
+
+.boton--secundario {
+  color: var(--color-acento);
+  background-color: var(--color-superficie);
+  border-color: var(--color-borde-fuerte);
+}
+
+.boton--secundario:hover {
+  background-color: var(--color-acento-suave);
+  border-color: var(--color-acento);
+}
+
+.boton--bloque {
+  width: 100%;
+}
+
+.boton:disabled,
+.boton[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* 4. Tabla ---------------------------------------------------------------- */
+
+.tabla,
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--tamano-texto-sm);
+  color: var(--color-texto);
+}
+
+.tabla caption,
+table caption {
+  padding-bottom: var(--espacio-2);
+  font-size: var(--tamano-texto-xs);
+  color: var(--color-texto-suave);
+  text-align: left;
+}
+
+.tabla th,
+table th {
+  padding: var(--espacio-2) var(--espacio-3);
+  font-weight: var(--peso-fuerte);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: var(--borde-base);
+}
+
+.tabla td,
+table td {
+  padding: var(--espacio-2) var(--espacio-3);
+  vertical-align: top;
+  border-bottom: var(--borde-base);
+}
+
+.tabla thead th,
+table thead th {
+  color: var(--color-texto);
+  background-color: var(--color-superficie-alterna);
+  white-space: nowrap;
+}
+
+.tabla tbody tr:hover,
+table tbody tr:hover {
+  background-color: var(--color-superficie-alterna);
+}
+
+.tabla .numero,
+table .numero {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabla__vacia,
+table .vacia {
+  padding: var(--espacio-6);
+  font-size: var(--tamano-texto-sm);
+  color: var(--color-texto-suave);
+  text-align: center;
+}
+
+
+/* 5. Badges --------------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-1) var(--espacio-2);
+  font-size: var(--tamano-texto-xs);
+  font-weight: var(--peso-medio);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-texto-suave);
+  background-color: var(--color-superficie-alterna);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-sm);
+}
+
+.badge--acento {
+  color: var(--color-acento);
+  background-color: var(--color-acento-suave);
+  border-color: var(--color-acento-suave);
+}
+
+.badge--exito {
+  color: var(--color-exito);
+  background-color: var(--color-exito-fondo);
+  border-color: var(--color-exito-fondo);
+}
+
+.badge--aviso {
+  color: var(--color-aviso);
+  background-color: var(--color-aviso-fondo);
+  border-color: var(--color-aviso-fondo);
+}
+
+.badge--error {
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
+  border-color: var(--color-error-fondo);
+}
+
+/* Badge «Sin clasificar» (RN-CAT-04, RN-LIB-02): el borde punteado lo
+   distingue de los otros badges sin depender solo del color. */
+.badge--sin-clasificar {
+  color: var(--color-aviso);
+  background-color: var(--color-aviso-fondo);
+  border-color: var(--color-aviso);
+  border-style: dashed;
+}
+
+
+/* 6. Mensajes ------------------------------------------------------------- */
+
+/* Región de mensajes de cada vista: apila sus mensajes con separación entre
+   ellos, sin depender del margen de cada uno. */
+.region-mensajes {
+  display: grid;
+  gap: var(--espacio-3);
+}
+
+.mensaje {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--espacio-2);
+  padding: var(--espacio-3) var(--espacio-4);
+  font-size: var(--tamano-texto-sm);
+  color: var(--color-texto);
+  background-color: var(--color-superficie-alterna);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-md);
+}
+
+/* Mensaje de resultado correcto. */
+.mensaje--exito {
+  color: var(--color-exito);
+  background-color: var(--color-exito-fondo);
+  border-color: var(--color-exito);
+}
+
+.mensaje--exito::before {
+  content: "✓";
+  font-weight: var(--peso-fuerte);
+}
+
+/* Mensaje de error: texto + marcador, nunca solo color (RN-ACC-05). */
+.mensaje--error {
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
+  border-color: var(--color-error);
+}
+
+.mensaje--error::before {
+  content: "✕";
+  font-weight: var(--peso-fuerte);
+}
+
+/* Mensaje de lista vacía o búsqueda sin resultados (RN-CAT-04, RN-ACC-02). */
+.mensaje--vacio {
+  justify-content: center;
+  text-align: center;
+  color: var(--color-texto-suave);
+  background-color: var(--color-superficie);
+}
+
+.mensaje__titulo {
+  font-weight: var(--peso-fuerte);
+}
+
+
+/* 7. Estado activo de la navegación --------------------------------------- */
+
+/* La vista activa se distingue por peso, subrayado y fondo: la diferencia es
+   perceptible sin depender únicamente del color (RN-ACC-05). */
+.enlace-nav--activo {
+  font-weight: var(--peso-fuerte);
+  text-decoration: underline;
+  background-color: var(--color-acento-suave);
+  border-radius: var(--radio-sm);
+}
