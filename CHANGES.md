@@ -395,7 +395,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-12] `historial-inmutable`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - archivado el 2026-10-22 en `openspec/changes/archive/2026-10-22-historial-inmutable/`
 - **Scope**: Historial consultable con detalle de renglones e inmutabilidad de la venta confirmada (Ejercicio 5 — 7 pts)
   - `js/vistas/historial.js`: tabla con identificador, fecha, cliente y total, ordenada de más reciente a más antigua (RN-HIS-01, SU-03)
   - Detalle de venta: renglones con libro, cantidad, precio unitario y subtotal leídos **del propio registro de la venta**, nunca del catálogo (RN-VEN-07, RN-HIS-02)
