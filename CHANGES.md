@@ -420,7 +420,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 > cuatro escrituras reales. C-14 documenta la entrega y C-15 registra los 8 casos manuales ejecutados.
 
 ### [C-13] `persistencia-integrada`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado - archivado el 2026-10-22 en `openspec/changes/archive/2026-10-22-persistencia-integrada/`
 - **Scope**: Verificación end-to-end de la persistencia y de la integridad histórica (Ejercicio 6 — 4 pts)
   - Traza de escritura única: toda mutación (alta de libro, alta de cliente, confirmación de venta) pasa por `storage.guardar*` y queda reflejada en `libreria.libros`, `libreria.clientes` y `libreria.ventas` (RN-PER-01)
   - Recarga después de altas y de una venta: se recuperan los registros guardados sin duplicar ejemplos ni ventas (RN-PER-02, caso manual nº 7)
