@@ -9,15 +9,10 @@ Aplicación web de una librería: catálogo de libros, alta de libros y clientes
 ## 1. Responsables
 
 | Integrante |
-|---|---|---|
 | Facundo Cabrera |
 | Nahuel Olmos |
 | Ignacio Ariza |
 | Agustin Pereyra |
-
-> ⚠️ **Pendiente de completar antes de entregar**: la consigna exige que el `README.md` identifique a quienes realizan el trabajo. Completar esta tabla.
-
----
 
 ## 2. Cómo abrir el proyecto (sin npm, sin build)
 
