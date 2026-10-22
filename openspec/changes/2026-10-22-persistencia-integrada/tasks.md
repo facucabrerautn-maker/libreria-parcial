@@ -6,23 +6,23 @@
 
 ## 1. Traza de escritura única
 
-- [ ] 1.1 Alta de libro: registrar un libro nuevo desde la vista Libros y verificar que aparece en `libreria.libros` de `localStorage` (DevTools → Application → Local Storage).
+- [x] 1.1 Alta de libro: registrar un libro nuevo desde la vista Libros y verificar que aparece en `libreria.libros` de `localStorage` (DevTools → Application → Local Storage).
   Verificar que el libro tiene `id`, `isbnNorm`, `precio`, `editorialId`, `generoId`, `autorIds`.
-- [ ] 1.2 Alta de cliente: registrar un cliente nuevo desde la vista Clientes y verificar que aparece en `libreria.clientes`.
+- [x] 1.2 Alta de cliente: registrar un cliente nuevo desde la vista Clientes y verificar que aparece en `libreria.clientes`.
   Verificar que tiene `id`, `nombre`, `email`, `emailNorm`.
-- [ ] 1.3 Confirmación de venta: armar y confirmar una venta desde la vista Ventas y verificar que aparece en `libreria.ventas` con `id`, `fecha`, `clienteId`, `clienteNombre`, `renglones` y `total`.
+- [x] 1.3 Confirmación de venta: armar y confirmar una venta desde la vista Ventas y verificar que aparece en `libreria.ventas` con `id`, `fecha`, `clienteId`, `clienteNombre`, `renglones` y `total`.
   Verificar que cada renglón tiene `libroId`, `titulo`, `isbn`, `autores`, `editorial`, `cantidad`, `precioUnitario`, `subtotal`.
 - [x] 1.4 Verificar que `storage.guardarLibros()`, `storage.guardarClientes()` y `storage.guardarVentas()` se invocan en cada mutación (inspección de código en `js/datos.js`).
 
 ## 2. Recarga sin duplicados
 
-- [ ] 2.1 Primera apertura: verificar que las 6 claves `libreria.*` se crean con el seed (6 libros, 3 clientes, 0 ventas, 2 editoriales, 2 géneros, 3 autores).
-- [ ] 2.2 Recarga posterior: recargar la página y verificar que no hay duplicados (siguen siendo 6 libros, 3 clientes, 0 ventas si no se confirmaron ventas).
+- [x] 2.1 Primera apertura: verificar que las 6 claves `libreria.*` se crean con el seed (6 libros, 3 clientes, 0 ventas, 2 editoriales, 2 géneros, 3 autores).
+- [x] 2.2 Recarga posterior: recargar la página y verificar que no hay duplicados (siguen siendo 6 libros, 3 clientes, 0 ventas si no se confirmaron ventas).
 - [ ] 2.3 Después de altas y de una venta: recargar y verificar que los registros guardados se recuperan sin duplicar ejemplos ni ventas (caso manual nº 7).
 
 ## 3. Integridad del precio histórico (caso manual nº 6)
 
-- [ ] 3.1 Confirmar una venta (p. ej. 2 × LIB-001 a 1500 + 1 × LIB-002 a 2000 = 5000).
+- [x] 3.1 Confirmar una venta (p. ej. 2 × LIB-001 a 1500 + 1 × LIB-002 a 2000 = 5000).
 - [ ] 3.2 Modificar únicamente el `precio` de LIB-001 en `libreria.libros` desde DevTools (no tocar `libreria.ventas`).
 - [ ] 3.3 Recargar la página y consultar el detalle de la venta anterior en el Historial.
   Verificar que `precioUnitario`, subtotales y total conservan los valores confirmados (RN-VEN-07).
