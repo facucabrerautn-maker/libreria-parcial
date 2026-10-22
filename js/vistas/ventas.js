@@ -56,6 +56,7 @@
     nC.appendChild(vac);
     d.listarClientes().forEach(function (c) { var o = ui.crearElemento('option', c.nombre, ''); o.value = c.id; nC.appendChild(o); });
     if (d.listarClientes().some(function (c) { return c.id === ca; })) nC.value = ca;
+    borrador.clienteId = nC.value;
     while (nL.firstChild) nL.removeChild(nL.firstChild);
     var vac2 = ui.crearElemento('option', '— Elegí un libro —', ''); vac2.value = '';
     nL.appendChild(vac2);
@@ -131,7 +132,7 @@
     nC.value = ''; nQ.value = '1';
     pr();
     proc = false; ac();
-    mr('Venta «' + reg.id + '» confirmada correctamente.', 'exito');
+      mr('Venta «' + reg.id + '» confirmada correctamente.', 'exito');
   }
   window.Libreria.vistas.ventas = {
     render: function (sec) {
@@ -178,7 +179,7 @@
       res.appendChild(lin); res.appendChild(ar);
       cont.appendChild(form); cont.appendChild(nT); cont.appendChild(res);
       frag.appendChild(cont);
-      ps(); pr();
+      ps(); pr(); nC.addEventListener('change', function () { borrador.clienteId = nC.value; ac(); });
       nA.addEventListener('click', aa);
       nConf.addEventListener('click', acf);
       nT.addEventListener('click', function (e) {
