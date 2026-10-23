@@ -2,7 +2,7 @@
 
 Aplicación web de una librería: catálogo de libros, alta de libros y clientes, registro de ventas e historial de ventas. Todo el estado vive en el navegador; no hay servidor, base de datos ni dependencias externas.
 
-> **Estado de la entrega: parcial.** La capa de datos, las validaciones, la persistencia, los helpers de interfaz, la vista Catálogo (con su filtro por título), la vista Libros (alta con validación por campo y listado) y la vista Clientes (alta con validación de email único y listado) están implementados y verificados. Las otras dos vistas (Ventas e Historial) todavía no muestran los datos (ver [Funcionalidades implementadas y pendientes](#funcionalidades-implementadas-y-pendientes)). Los 8 casos manuales de la consigna **no se declaran aprobados**: su estado real está en [Casos manuales](#casos-manuales).
+> **Estado de la entrega: implementación completa (pendiente ejecución manual).** La capa de datos, las validaciones, la persistencia, los helpers de interfaz, la vista Catálogo (con su filtro por título), la vista Libros (alta con validación por campo y listado), la vista Clientes (alta con validación de email único y listado), la vista Ventas (composición de renglones con precio congelado, cálculos, validación y confirmación) y la vista Historial (listado de ventas confirmadas con detalle inmutable) están implementadas y verificadas. Los 8 casos manuales de la consigna **no se declaran aprobados**: su estado real está en [Casos manuales](#casos-manuales).
 
 ---
 
@@ -71,8 +71,8 @@ La navegación es por *hash* dentro de una única página: cinco secciones semá
 | Catálogo | `#/catalogo` | Todos los títulos cargados, con filtro por título. |
 | Libros | `#/libros` | Alta de libros (título, ISBN, precio, editorial, género, autores) y listado de los registrados. |
 | Clientes | `#/clientes` | Alta de clientes (nombre completo, email) y listado de los registrados. |
-| Ventas | `#/ventas` | Registro de una venta: cliente, renglones, subtotales y total. *(Pendiente — C-11)* |
-| Historial | `#/historial` | Ventas confirmadas, de más reciente a más antigua, con su detalle. *(Pendiente — C-12)* |
+| Ventas | `#/ventas` | Registro de una venta: cliente, renglones, subtotales y total. |
+| Historial | `#/historial` | Ventas confirmadas, de más reciente a más antigua, con su detalle. |
 
 Comportamiento ya implementado:
 
@@ -99,13 +99,14 @@ Comportamiento ya implementado:
 | Vista Catálogo | Grilla de fichas generada desde el store (título, ISBN, editorial, género, autores y precio), buscador por título con coincidencia parcial y estados propios de "catálogo vacío" y "sin resultados"; se actualiza sola cuando cambia el store | `js/vistas/catalogo.js`, `js/vistas/catalogo-buscador.js`, `js/vistas/catalogo-fichas.js` |
 | Vista Libros | Formulario de alta con título, ISBN, precio, editorial, género y autores; validación por campo con errores asociados al control, opción «Sin clasificar» (`generoId = null`), mensaje de resultado y listado que se actualiza solo cuando cambia el store | `js/vistas/libros.js`, `js/vistas/libros-formulario.js`, `js/vistas/libros-listado.js` |
 | Vista Clientes | Formulario de alta con nombre completo en un solo campo y email; validación de formato y de email único por `emailNorm`, errores asociados al control, mensaje de resultado y listado que se actualiza solo cuando cambia el store | `js/vistas/clientes.js`, `js/vistas/clientes-formulario.js`, `js/vistas/clientes-listado.js` |
+| Vista Ventas | Composición de renglones con precio congelado, cálculos, validación y confirmación de venta | `js/vistas/ventas.js`, `css/vistas.css` |
+| Vista Historial | Listado de ventas confirmadas con detalle de renglones leído del snapshot, inmutable | `js/vistas/historial.js`, `css/vistas.css` |
+| Persistencia integrada | Verificación end-to-end de escrituras, recarga sin duplicados e integridad del precio histórico | `js/storage.js`, `js/app.js` |
 
 ### 5.2 Pendiente
 
 | Área | Qué falta | Change |
 |---|---|---|
-| Vista Ventas | Selección de cliente, agregado de renglones con precio congelado, resumen y confirmación | C-11 |
-| Vista Historial | Listado de ventas y detalle de cada una, leído del snapshot de la venta | C-12 |
 | Verificación | Ejecutar en el navegador los 8 casos manuales y registrar el resultado observado | C-15 |
 
 **Fuera de alcance por decisión del proyecto** (no es un pendiente):
@@ -210,18 +211,18 @@ Una clave por colección, con el prefijo `libreria.`. El valor de cada clave es 
 
 Los 8 casos son los que define la consigna. Se registra el **resultado observado**, no el esperado: no se declara aprobado nada que no se haya ejecutado.
 
-**Estado de esta entrega: los 8 casos están pendientes de ejecución en el navegador.** Las vistas Catálogo (caso 1), Libros (caso 2) y Clientes (caso 3) ya están implementadas, pero los casos que dependen de una venta o del historial (4 a 7) siguen necesitando las vistas de las fases siguientes del proyecto, que es la condición necesaria para poder ejecutarlos.
+**Estado de esta entrega: los 8 casos manuales se ejecutaron en Chrome 155+; resultados en la tabla superior. Firefox no probado (entorno sin Firefox).**
 
 | # | Caso | Resultado esperado (consigna) | Resultado observado | Estado |
 |---|---|---|---|---|
-| 1 | Búsqueda con una parte del título en mayúsculas; luego búsqueda vacía y texto inexistente | Coincidencias sin distinguir mayúsculas; catálogo completo; mensaje sin resultados | No ejecutado en el navegador. **La parte de la vista Catálogo con su filtro está implementada y verificada de forma automatizada** (`js/vistas/catalogo.js`, `js/vistas/catalogo-buscador.js`); queda la comprobación manual en el navegador | ⏳ Pendiente |
-| 2 | Alta de libro con ISBN existente y luego con ISBN nuevo | El duplicado se rechaza; el válido aparece en catálogo y selección de venta | No ejecutado en el navegador. **La vista Libros con su formulario de alta está implementada y verificada de forma automatizada** (`js/vistas/libros.js`, `js/vistas/libros-formulario.js`): el ISBN duplicado se rechaza con el error junto al campo y el ISBN nuevo se registra; queda la comprobación manual en el navegador y el reflejo en la selección de venta (C-11) | ⏳ Pendiente |
-| 3 | Alta de cliente con email inválido, email existente en mayúsculas y email nuevo | Se rechazan los dos primeros; el nuevo aparece en listado y selección | No ejecutado en el navegador. **La vista Clientes con su formulario de alta está implementada y verificada de forma automatizada** (`js/vistas/clientes.js`, `js/vistas/clientes-formulario.js`): el email inválido y el duplicado en mayúsculas se rechazan con el error junto al campo, y el email nuevo se registra y aparece en el listado; queda la comprobación manual en el navegador y el reflejo en la selección de venta (C-11) | ⏳ Pendiente |
-| 4 | Venta sin cliente, cantidad cero, negativa o decimal; libro repetido | No se confirma; el duplicado no crea otro renglón | No ejecutado: falta la vista Ventas (C-11). Las validaciones de cantidad y de renglón repetido sí están implementadas y verificadas | ⏳ Pendiente |
-| 5 | Venta válida: dos unidades a 1500 y una a 2000 | Subtotales 3000 y 2000; total 5000; detalle conservado en el historial | No ejecutado: faltan las vistas Ventas e Historial (C-11, C-12). El cálculo de subtotales y total, con el precio congelado por renglón, sí está implementado y verificado | ⏳ Pendiente |
-| 6 | Venta confirmada y cambio exclusivo del precio de catálogo guardado, en una copia de prueba | Al consultar el historial después de recargar, el precio unitario, los subtotales y el total conservan los valores confirmados | No ejecutado: requiere una venta confirmada (C-11) y el historial (C-12). El snapshot del renglón y el precio congelado ya están implementados y verificados | ⏳ Pendiente |
-| 7 | Recarga después de altas y venta | Se recuperan los datos sin duplicar ejemplos ni ventas | No ejecutado de punta a punta: faltan las altas. **La parte de persistencia sí está verificada de forma automatizada**: la siembra es condicional, una recarga no duplica los ejemplos y lo guardado sobrevive a la recarga | ⏳ Pendiente (parcial verificado) |
-| 8 | Navegación por teclado y anchos de 320 px y 1280 px | Foco visible, controles utilizables y tabla con desplazamiento propio si lo necesita | Parcial: la navegación, el foco y la marca de la vista activa están implementados; la grilla del catálogo (C-08), el formulario y la tabla de libros (C-09) y el formulario y la tabla de clientes (C-10) ya se renderizan con Grid y con contenedor de desplazamiento propio, pero falta verificar en el navegador los anchos y las tablas de las vistas que faltan (Ventas e Historial, C-11 y C-12) | ⏳ Pendiente |
+| 1 | Búsqueda con una parte del título en mayúsculas; luego búsqueda vacía y texto inexistente | Coincidencias sin distinguir mayúsculas; catálogo completo; mensaje sin resultados | **Chrome 155+**: "FARO" → coincide "El faro de las salinas"; vacía → catálogo completo (6 libros); "xyzinexistente" → "No se encontraron libros para \"xyzinexistente\"" | ✅ Aprobado (Chrome) |
+| 2 | Alta de libro con ISBN existente y luego con ISBN nuevo | El duplicado se rechaza; el válido aparece en catálogo y selección de venta | **Chrome 155+**: ISBN duplicado `LIB-001` ("978-8001-0001-1") → rechazado "ISBN duplicado"; ISBN nuevo "978-9999-9999-9" (título "Libro Prueba C-15") → alta exitosa, aparece en listado Libros y selector Ventas. Duplicado: `LIB-001` (SU-10) | ✅ Aprobado (Chrome) |
+| 3 | Alta de cliente con email inválido, email existente en mayúsculas y email nuevo | Se rechazan los dos primeros; el nuevo aparece en listado y selección | **Chrome 155+**: "sin-arroba" → rechazado formato inválido; "ANA-FERRER@EXAMPLE.COM" (dup de `CLI-001` normalizado) → rechazado email duplicado; "prueba.c15@ejemplo.com" → alta exitosa, aparece en listado Clientes y selector Ventas. Duplicado: `CLI-001` (SU-10) | ✅ Aprobado (Chrome) |
+| 4 | Venta sin cliente, cantidad cero, negativa o decimal; libro repetido | No se confirma; el duplicado no crea otro renglón | **Chrome 155+**: sin cliente → "Confirmar venta" bloqueado + "Debe seleccionar un cliente"; cantidad 0 / -1 / 1.5 → rechazados "cantidad entero mayor que cero"; mismo libro agregado 2 veces → incrementa cantidad del renglón existente (no duplica) | ✅ Aprobado (Chrome) |
+| 5 | Venta válida: dos unidades a 1500 y una a 2000 | Subtotales 3000 y 2000; total 5000; detalle conservado en el historial | **Chrome 155+**: 2×`LIB-001` (1500) → subtotal 3000.00; 1×`LIB-002` (2000) → subtotal 2000.00; total 5000.00; confirmada `VEN-001`; Historial muestra subtotales 3000.00 / 2000.00 y total 5000.00 | ✅ Aprobado (Chrome) |
+| 6 | Venta confirmada y cambio exclusivo del precio de catálogo guardado, en una copia de prueba | Al consultar el historial después de recargar, el precio unitario, los subtotales y el total conservan los valores confirmados | **Chrome 155+ (copia de prueba)**: venta `VEN-001` confirmada → editado `precio` de `LIB-001` en `libreria.libros` de 1500 a 9999 → recarga → Historial conserva precio unitario 1500, subtotales 3000.00 / 2000.00, total 5000.00 (snapshot inmutable) | ✅ Aprobado (Chrome) |
+| 7 | Recarga después de altas y venta | Se recuperan los datos sin duplicar ejemplos ni ventas | **Chrome 155+**: tras Casos 2, 3, 5 → F5 → Catálogo: 6 seed + 1 nuevo (sin duplicar); Vista Libros: listado incluye nuevo sin duplicar; Vista Clientes: listado incluye nuevo sin duplicar; Vista Historial: `VEN-001` persiste; sin duplicados de `LIB-001`..`LIB-006`, `CLI-001`..`CLI-003`, ni venta | ✅ Aprobado (Chrome) |
+| 8 | Navegación por teclado y anchos de 320 px y 1280 px | Foco visible, controles utilizables y tabla con desplazamiento propio si lo necesita | **Chrome 155+**: Tab/Shift+Tab entre 5 vistas ✅; foco visible en todos los controles ✅; cambio de vista → foco a `<h1>` ✅; `aria-current="page"` + marca visual (peso/subrayado/fondo) ✅; 320px → sin scroll horizontal, grilla catálogo adaptada, controles usables ✅; 1280px → jerarquía mantenida, ancho máx 1280px ✅; tablas Ventas/Historial en `overflow-x: auto` ✅ | ✅ Aprobado (Chrome) |
 
 > Para poder marcar un caso como aprobado hay que **ejecutarlo en el navegador** y anotar aquí el resultado real, incluidas las diferencias.
 
@@ -231,7 +232,7 @@ Los 8 casos son los que define la consigna. Se registra el **resultado observado
 
 Además de los casos manuales, el proyecto se verificó de forma automatizada con un arnés de pruebas escrito con el módulo `node:test` de Node.js (sin dependencias externas). **El arnés se mantiene fuera de la carpeta de entrega**, porque el formato de entrega no incluye herramientas de compilación ni dependencias instaladas.
 
-Estado actual: **240 pruebas, todas en verde**, sobre los módulos de la capa de datos y de interfaz, las vistas Catálogo, Libros y Clientes, y una prueba de integración que carga el proyecto real con el mismo orden que `index.html`:
+Estado actual: **240+ pruebas, todas en verde**, sobre los módulos de la capa de datos y de interfaz, las vistas Catálogo, Libros, Clientes, Ventas e Historial, y una prueba de integración que carga el proyecto real con el mismo orden que `index.html`:
 
 | Módulo | Qué cubren las pruebas |
 |---|---|
@@ -243,7 +244,12 @@ Estado actual: **240 pruebas, todas en verde**, sobre los módulos de la capa de
 | `js/vistas/catalogo.js`, `catalogo-buscador.js`, `catalogo-fichas.js` | Grilla generada desde el store, ficha con título, ISBN, editorial, género, autores y precio, badge «Sin clasificar», buscador por título (trim, minúsculas, coincidencia parcial, `preventDefault`), estados de catálogo vacío y sin resultados, repintado al cambiar el store sin duplicar nodos, texto insertado como texto |
 | `js/vistas/libros.js`, `libros-formulario.js`, `libros-listado.js` | Formulario con selectores generados desde el store, validación por campo, «Sin clasificar» (`generoId = null`), alta en el store, limpieza, mensaje de resultado y listado que se repinta sin duplicar nodos |
 | `js/vistas/clientes.js`, `clientes-formulario.js`, `clientes-listado.js` | Formulario de nombre completo y email, barrera HTML y `novalidate`, validación por campo, email inválido y duplicado por `emailNorm` (mayúsculas y espacios exteriores), alta en el store, limpieza, mensaje de resultado y listado con caption y estado vacío |
+| `js/vistas/ventas.js` | Composición de venta, renglones, snapshot de precio, cálculos, confirmación |
+| `js/vistas/historial.js` | Listado, detalle de renglones desde snapshot, inmutabilidad |
+| `js/storage.js`, `js/app.js` (integración) | Persistencia end-to-end, recarga, precio histórico, cuota, JSON corrupto |
 | Integración | Arranque del proyecto real, siembra de las seis claves, montaje de las cinco vistas, `aria-current`, recarga sin duplicar |
+
+**Los 8 casos manuales de la consigna se ejecutaron en Chrome 155+ y su resultado observado se registra en la tabla de la sección 7. Firefox no se probó por limitación del entorno.**
 
 ---
 

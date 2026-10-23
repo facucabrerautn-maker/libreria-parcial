@@ -464,7 +464,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 ---
 
 ### [C-15] `casos-manuales-verificacion`
-- **Estado**: `[ ]` pendiente
+- **Estado**: `[x]` completado — ejecutado en Chrome 155+ (2026-10-22), Firefox no probado por limitación del entorno; resultados observados registrados en `README.md §7`
 - **Scope**: Ejecución de los 8 casos manuales y registro de los resultados observados (Ejercicio 6 — 3 pts)
   - Tabla en el `README.md` con los 8 casos y su resultado observado (RN-ENT-03, US-031)
   - Caso 1: búsqueda con una parte del título en mayúsculas; luego búsqueda vacía y texto inexistente
@@ -507,7 +507,7 @@ Paso │ Agente A (HTML y CSS)      │ Agente B (Datos y persistencia) │ Agen
 | C-12 | `historial-inmutable` | FASE 5 | Historial consultable con detalle de renglones leídos de la venta, sin edición ni borrado | MEDIO | C-04, C-05, C-07, C-11 | Ej. 5 — 7 pts |
 | C-13 | `persistencia-integrada` | FASE 6 | Verificación end-to-end de las escrituras, la recarga sin duplicados y la integridad del precio histórico | CRITICO | C-07, C-09, C-10, C-11, C-12 | Ej. 6 — 4 pts |
 | C-14 | `readme-entrega` | FASE 6 | README de entrega: apertura sin npm, navegación, implementado/pendiente, claves, límites de `localStorage` e imágenes | MEDIO | C-04, C-12, C-13 | Ej. 6 (documentación) — 3 pts |
-| C-15 | `casos-manuales-verificacion` | FASE 6 | Ejecución de los 8 casos manuales y registro de los resultados observados en el README | MEDIO | C-13, C-14 | Ej. 6 (pruebas) — 3 pts |
+| C-15 | `casos-manuales-verificacion` | FASE 6 | Ejecución de los 8 casos manuales y registro de los resultados observados en el README | MEDIO | C-13, C-14 | Ej. 6 (pruebas) — 3 pts — **completado** |
 
 **Totales**: 15 changes · 7 fases · 10 gates · camino crítico de 9 changes · 100 puntos de rúbrica cubiertos.
 
