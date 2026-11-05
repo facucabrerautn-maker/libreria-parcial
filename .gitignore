@@ -32,3 +32,13 @@ desktop.ini
 *~
 .idea/
 .vscode/
+
+# Python y entornos
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+.env

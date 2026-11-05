@@ -1,0 +1,30 @@
+# Importación centralizada de todos los modelos para Alembic y SQLModel.metadata
+from app.modules.autores.models import Autor
+from app.modules.clientes.models import Cliente, PerfilCliente
+from app.modules.editoriales.models import Editorial
+from app.modules.generos.models import Genero
+from app.modules.libros.models import Libro, LibroAutor, MovimientoStock
+from app.modules.usuarios.models import (
+    AsignacionRol,
+    EventoSeguridad,
+    IntentoAcceso,
+    Usuario,
+)
+from app.modules.ventas.models import RenglonVenta, Venta
+
+__all__ = [
+    "Editorial",
+    "Genero",
+    "Autor",
+    "Libro",
+    "LibroAutor",
+    "MovimientoStock",
+    "Cliente",
+    "PerfilCliente",
+    "Venta",
+    "RenglonVenta",
+    "Usuario",
+    "AsignacionRol",
+    "IntentoAcceso",
+    "EventoSeguridad",
+]
