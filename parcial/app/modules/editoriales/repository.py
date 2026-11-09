@@ -1,0 +1,8 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.repository import BaseRepository
+from app.modules.editoriales.models import Editorial
+
+
+class EditorialRepository(BaseRepository[Editorial]):
+    def __init__(self, session: AsyncSession):
+        super().__init__(session, Editorial)
